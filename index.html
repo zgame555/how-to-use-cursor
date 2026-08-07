@@ -1,0 +1,260 @@
+<!doctype html>
+<html lang="th" dir="ltr" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="dark light" />
+    <meta
+      name="description"
+      content="Cursor Field Guide ภาษาไทย: เลือกโหมด โมเดล และ Git workflow ให้เหมาะกับความเสี่ยงของงาน"
+    />
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230a0d0c'/%3E%3Cpath d='M8 22 13 9h4l-5 13H8Zm8 0 5-13h4l-5 13h-4Z' fill='%23c9ff45'/%3E%3C/svg%3E" />
+    <title>Cursor Field Guide — ใช้ Cursor ให้เต็มประสิทธิภาพ</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Mono:wght@400;700&family=Syne:wght@600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">ข้ามไปเนื้อหาหลัก</a>
+
+    <div class="site-frame">
+      <header class="topbar">
+        <a class="brand" href="#top" aria-label="Cursor Field Guide หน้าหลัก">
+          <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span>
+          <span>cursor <b>/</b> field guide</span>
+        </a>
+
+        <nav class="top-nav" aria-label="เมนูหลัก">
+          <a href="#modes">โหมด</a>
+          <a href="#workflow">เวิร์กโฟลว์</a>
+          <a href="#git">Git safety</a>
+          <a href="#kit">Prompt kit</a>
+        </nav>
+
+        <button class="theme-toggle" id="theme-toggle" type="button" aria-label="สลับธีมสี" aria-pressed="false">
+          <span class="theme-icon" aria-hidden="true">◐</span>
+          <span class="theme-label">Light</span>
+        </button>
+      </header>
+
+      <div class="page-layout">
+        <aside class="rail" aria-label="สารบัญหน้า">
+          <div class="rail-topline">
+            <span>MAP</span>
+            <span>06 nodes</span>
+          </div>
+          <nav class="rail-nav" id="rail-nav">
+            <a href="#principle" data-section="principle" aria-current="page">
+              <span>01</span><b>หลักเดียว</b>
+            </a>
+            <a href="#modes" data-section="modes">
+              <span>02</span><b>เลือกโหมด</b>
+            </a>
+            <a href="#workflow" data-section="workflow">
+              <span>03</span><b>ทำงานเป็นชั้น</b>
+            </a>
+            <a href="#git" data-section="git">
+              <span>04</span><b>Git safety</b>
+            </a>
+            <a href="#kit" data-section="kit">
+              <span>05</span><b>Prompt kit</b>
+            </a>
+            <a href="#next" data-section="next">
+              <span>06</span><b>เริ่มจากตรงไหน</b>
+            </a>
+          </nav>
+          <div class="rail-progress" aria-hidden="true"><span id="progress-line"></span></div>
+          <p class="rail-note">อ่านแบบเลื่อนลง<br />หรือเลือก node</p>
+        </aside>
+
+        <main id="main-content">
+          <section class="hero" id="top" aria-labelledby="hero-title">
+            <div class="hero-kicker">
+              <span class="live-dot" aria-hidden="true"></span>
+              CURSOR FIELD GUIDE <span class="slash">/</span> 08.08.26
+            </div>
+            <div class="hero-grid">
+              <div class="hero-copy">
+                <h1 id="hero-title">ให้ AI<br /><em>ลงมือเร็วขึ้น</em><br />โดยยังคุม<br class="mobile-break" />เกมได้</h1>
+                <p class="hero-lede">
+                  คู่มือภาษาไทยสำหรับเลือก surface, mode, model และเครื่องมือประกอบของ Cursor ให้พอดีกับ
+                  <strong>ความเสี่ยงของงาน</strong> — ไม่ใช่แค่ชื่อโมเดลที่ดูเก่งที่สุด
+                </p>
+                <div class="hero-actions">
+                  <a class="button button-primary" href="#principle">เริ่มจากหลักเดียว <span aria-hidden="true">↘</span></a>
+                  <a class="button button-quiet" href="README.md">อ่านฉบับเต็ม <span aria-hidden="true">↗</span></a>
+                </div>
+              </div>
+
+              <div class="hero-console" aria-label="ตัวอย่างสถานะงานใน Git">
+                <div class="console-head">
+                  <div class="window-dots" aria-hidden="true"><i></i><i></i><i></i></div>
+                  <span>workspace / safe-state</span>
+                  <span class="console-signal">● synced</span>
+                </div>
+                <pre><code><span class="code-muted">$</span> git status --short
+
+<span class="code-green"> M</span> README.md
+<span class="code-green">??</span> index.html
+<span class="code-green">??</span> styles.css
+
+<span class="code-muted"># inspect first. ship second.</span>
+<span class="code-muted">$</span> git diff --check
+<span class="code-green">✓</span> clean boundary</code></pre>
+                <div class="console-foot">
+                  <span>working tree</span>
+                  <span class="console-line"></span>
+                  <span>ready for review</span>
+                </div>
+              </div>
+            </div>
+            <div class="hero-ticker" aria-label="หลักคิดของคู่มือ">
+              <span>01 / ช้าให้ถูกจุด</span>
+              <span>02 / เร็วเมื่อพิสูจน์ได้</span>
+              <span>03 / อย่า commit สิ่งที่อธิบายไม่ได้</span>
+            </div>
+          </section>
+
+          <section class="section principle-section" id="principle" aria-labelledby="principle-title">
+            <div class="section-meta"><span>01</span><span>THE OPERATING PRINCIPLE</span></div>
+            <div class="principle-grid">
+              <div>
+                <h2 id="principle-title">เลือก <em>โหมด</em> ก่อน<br />ค่อยเลือกโมเดล</h2>
+              </div>
+              <div class="principle-copy">
+                <p>
+                  งานที่ดีไม่ได้เริ่มจาก “รุ่นไหนเก่งสุด” แต่เริ่มจาก outcome, scope และความเสียหายที่ยอมรับได้
+                </p>
+                <p class="quiet-copy">ทุ่มความฉลาดตรงที่พลาดแล้วเจ็บ — ประหยัดตรงที่พลาดแล้วแก้ง่าย</p>
+                <div class="rule-line"><span></span><b>mode → model → leverage → proof</b></div>
+              </div>
+            </div>
+            <div class="risk-strip" role="list" aria-label="ระดับความเสี่ยงของงาน">
+              <div role="listitem"><span class="risk-index low">01</span><b>ชัด + แก้ง่าย</b><small>ลงมือเร็ว</small></div>
+              <div role="listitem"><span class="risk-index mid">02</span><b>หลายไฟล์ + เชื่อมกัน</b><small>วางแผนก่อน</small></div>
+              <div role="listitem"><span class="risk-index high">03</span><b>เงิน / auth / data</b><small>พิสูจน์ซ้ำ</small></div>
+            </div>
+          </section>
+
+          <section class="section" id="modes" aria-labelledby="modes-title">
+            <div class="section-meta"><span>02</span><span>FOUR MODES / ONE DECISION</span></div>
+            <div class="section-heading">
+              <div><h2 id="modes-title">ให้โหมดบอก<br /><em>วิธีคิด</em>ของงาน</h2></div>
+              <p>ถ้ายังไม่รู้ว่าจะลงมืออย่างไร อย่าเพิ่งสั่ง Agent — เปลี่ยนเป็นโหมดที่ทำให้คำถามชัดขึ้นก่อน</p>
+            </div>
+            <div class="mode-grid">
+              <article class="mode-card mode-ask">
+                <div class="card-top"><span class="mode-number">01</span><span class="mode-tag">ASK</span></div>
+                <h3>ส่องให้เห็นระบบ</h3>
+                <p>อ่านอย่างเดียว สรุปเส้นทาง request, dependency และจุดที่ต้องแตะ โดยยังไม่แก้ไฟล์</p>
+                <code>“อ่าน @path แล้วสรุป<br />จุดที่เกี่ยวข้อง — ยังไม่แก้”</code>
+              </article>
+              <article class="mode-card mode-plan">
+                <div class="card-top"><span class="mode-number">02</span><span class="mode-tag">PLAN</span></div>
+                <h3>วางแผนก่อนเสี่ยง</h3>
+                <p>แตกงานหลายไฟล์ ตัดสินใจ architecture และเขียน done criteria ก่อนอนุมัติให้ลงมือ</p>
+                <code>“เสนอ 2 แนวพร้อม<br />trade-off แล้วหยุดรอ”</code>
+              </article>
+              <article class="mode-card mode-agent">
+                <div class="card-top"><span class="mode-number">03</span><span class="mode-tag">AGENT</span></div>
+                <h3>ลงมือเป็นก้อนเล็ก</h3>
+                <p>แก้ไฟล์ รันคำสั่ง และตรวจผลใน loop เดียว โดยรักษา scope ให้แคบพอจะ review ได้</p>
+                <code>“แก้เฉพาะ scope นี้<br />ห้าม refactor นอกนั้น”</code>
+              </article>
+              <article class="mode-card mode-debug">
+                <div class="card-top"><span class="mode-number">04</span><span class="mode-tag">DEBUG</span></div>
+                <h3>ตามหลักฐาน ไม่เดา</h3>
+                <p>สร้างสมมติฐาน อ่าน log และ reproduce fail path ก่อนแตะโค้ด อย่าคลุมบั๊กด้วย try/catch</p>
+                <code>“reproduce → trace →<br />falsify → fix → verify”</code>
+              </article>
+            </div>
+          </section>
+
+          <section class="section workflow-section" id="workflow" aria-labelledby="workflow-title">
+            <div class="section-meta"><span>03</span><span>THE LOOP</span></div>
+            <div class="section-heading">
+              <div><h2 id="workflow-title">ทำงานเป็นชั้น<br /><em>ไม่ใช่ก้าวกระโดด</em></h2></div>
+              <p>ทุกช่วงต้องทิ้งหลักฐานให้ช่วงถัดไป ลด context ที่ต้องจำ และทำให้หยุดได้โดยไม่เสียของ</p>
+            </div>
+            <ol class="workflow-list">
+              <li><span class="step-mark">01</span><div><b>Define</b><p>เขียน outcome, scope, constraints, invariants และวิธีตรวจ</p></div><span class="step-arrow" aria-hidden="true">→</span></li>
+              <li><span class="step-mark">02</span><div><b>Explore</b><p>อ่านเส้นทางจริง เก็บ evidence และตรวจ assumption ก่อนแก้</p></div><span class="step-arrow" aria-hidden="true">→</span></li>
+              <li><span class="step-mark">03</span><div><b>Plan</b><p>เลือกแนวทางที่พอดี พร้อม trade-off ที่กระทบงานจริง</p></div><span class="step-arrow" aria-hidden="true">→</span></li>
+              <li><span class="step-mark">04</span><div><b>Execute</b><p>ลงมือเป็น diff เล็ก รัน test หลัง logical change</p></div><span class="step-arrow" aria-hidden="true">→</span></li>
+              <li><span class="step-mark">05</span><div><b>Verify</b><p>รันสิ่งที่ล้มถ้างานผิด และเปิดดูของจริงเมื่อมี UI</p></div><span class="step-arrow" aria-hidden="true">→</span></li>
+              <li><span class="step-mark">06</span><div><b>Review</b><p>ตรวจ diff รวม ความเสี่ยง และสิ่งที่ยังไม่ได้พิสูจน์</p></div><span class="step-arrow" aria-hidden="true">✓</span></li>
+            </ol>
+          </section>
+
+          <section class="section git-section" id="git" aria-labelledby="git-title">
+            <div class="section-meta"><span>04</span><span>GIT AS A SAFETY LAYER</span></div>
+            <div class="git-heading">
+              <div><h2 id="git-title">ให้ทุกคำสั่ง<br /><em>มีจุดหยุด</em></h2></div>
+              <p>Git ไม่ใช่ขั้นตอนหลังงานเสร็จ แต่เป็น boundary ที่ช่วยให้ Cursor ลงมือได้เร็วโดยยัง rollback, review และอธิบายสิ่งที่เปลี่ยนได้</p>
+            </div>
+            <div class="git-pipeline" role="list" aria-label="วงจร Git">
+              <div class="pipeline-step" role="listitem"><span>01</span><b>Working tree</b><code>git status<br />git diff</code></div>
+              <div class="pipeline-join" aria-hidden="true">→</div>
+              <div class="pipeline-step" role="listitem"><span>02</span><b>Staging area</b><code>git add -p<br />git diff --cached</code></div>
+              <div class="pipeline-join" aria-hidden="true">→</div>
+              <div class="pipeline-step" role="listitem"><span>03</span><b>Local repo</b><code>git commit<br />git log</code></div>
+              <div class="pipeline-join" aria-hidden="true">→</div>
+              <div class="pipeline-step" role="listitem"><span>04</span><b>Remote / PR</b><code>git push<br />review → merge</code></div>
+            </div>
+            <div class="git-bottom">
+              <aside class="quote-card"><span class="quote-mark" aria-hidden="true">“</span><p>อย่า commit สิ่งที่คุณยังอธิบายไม่ได้</p><small>one commit / one reason</small></aside>
+              <div class="command-card">
+                <div class="command-card-head"><span>safe handoff</span><button class="copy-button" type="button" data-copy="git status --short\ngit diff --check\ngit diff --cached\ngit push -u origin feature/name" aria-label="คัดลอกคำสั่ง safe handoff">คัดลอก</button></div>
+                <pre><code><span class="code-muted">$</span> git status --short
+<span class="code-muted">$</span> git diff --check
+<span class="code-muted">$</span> git diff --cached
+<span class="code-muted">$</span> git push -u origin <span class="code-cyan">feature/name</span></code></pre>
+              </div>
+            </div>
+          </section>
+
+          <section class="section kit-section" id="kit" aria-labelledby="kit-title">
+            <div class="section-meta"><span>05</span><span>PROMPT KIT</span></div>
+            <div class="section-heading">
+              <div><h2 id="kit-title">พรอมต์ที่ดี<br /><em>มีขอบเขต</em></h2></div>
+              <p>เอาประโยคเหล่านี้ไปใช้เป็นราวกันตกใน chat จริง — สั้นพอให้โมเดลจำ แต่ชัดพอให้คุณตรวจ</p>
+            </div>
+            <div class="prompt-layout">
+              <div class="prompt-list">
+                <button class="prompt-chip active" type="button" data-prompt="scope">scope boundary <span>01</span></button>
+                <button class="prompt-chip" type="button" data-prompt="evidence">evidence first <span>02</span></button>
+                <button class="prompt-chip" type="button" data-prompt="handoff">safe handoff <span>03</span></button>
+              </div>
+              <div class="prompt-view" aria-live="polite">
+                <div class="prompt-view-top"><span id="prompt-label">scope boundary</span><button class="copy-button" id="prompt-copy" type="button" aria-label="คัดลอกพรอมต์ปัจจุบัน">คัดลอก</button></div>
+                <pre><code id="prompt-text">แก้เฉพาะ scope นี้ ห้าม refactor นอกนั้น
+ถ้าพบสิ่งที่ต้องขยาย scope ให้หยุด
+และสรุปผลกระทบก่อน</code></pre>
+              </div>
+            </div>
+          </section>
+
+          <section class="section next-section" id="next" aria-labelledby="next-title">
+            <div class="next-card">
+              <div><span class="eyebrow">YOUR NEXT MOVE</span><h2 id="next-title">เริ่มจากงานเล็ก<br /><em>แล้วอ่าน diff ของตัวเอง</em></h2></div>
+              <div class="next-copy"><p>เลือก task ที่มี done criteria ชัด เปิด Ask/Plan เมื่อยังไม่รู้ทาง แล้วให้ Agent ลงมือเป็นก้อนที่คุณอธิบายได้</p><a href="README.md" class="text-link">เปิดคู่มือฉบับเต็ม <span aria-hidden="true">↗</span></a></div>
+            </div>
+          </section>
+
+          <footer class="footer">
+            <span>cursor / field guide</span>
+            <span>Built for thoughtful shipping.</span>
+            <a href="https://github.com/zgame555/how-to-use-git" rel="noreferrer">Git field guide ↗</a>
+          </footer>
+        </main>
+      </div>
+    </div>
+
+    <div class="sr-only" id="live-region" role="status" aria-live="polite"></div>
+    <script src="script.js"></script>
+  </body>
+</html>

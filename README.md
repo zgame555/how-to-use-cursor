@@ -7,9 +7,19 @@
 
 คู่มือนี้อธิบายวิธีเลือก **พื้นผิวการทำงาน โหมด โมเดล และเครื่องมือประกอบ** ของ Cursor สำหรับงานพัฒนา software โดยเน้นการแลกกันระหว่างคุณภาพ ความเร็ว ต้นทุน และความเสี่ยง ไม่ได้สมมติว่าโมเดลใดดีที่สุดกับทุกงาน
 
-เป็นคู่มือพี่น้องกับ [how-to-use-gpt](https://github.com/zgame555/how-to-use-gpt) และใช้โครงคิดแบบเดียวกัน: เริ่มจาก outcome และความเสียหายที่ยอมรับได้ แล้วค่อยเลือกวิธีที่ถูกและเร็วที่สุดซึ่งยังผ่านการตรวจจริง
+เป็นคู่มือพี่น้องกับ [how-to-use-gpt](https://github.com/zgame555/how-to-use-gpt) และ [how-to-use-git](https://github.com/zgame555/how-to-use-git) ใช้โครงคิดเดียวกัน: เริ่มจาก outcome และความเสียหายที่ยอมรับได้ แล้วค่อยเลือกวิธีที่ถูกและเร็วที่สุดซึ่งยังผ่านการตรวจจริง
 
-ข้อมูลผลิตภัณฑ์และราคาอัปเดตล่าสุด: **2 สิงหาคม 2026** — ชื่อโมเดล ราคา availability และ UI เปลี่ยนได้เสมอ โปรดตรวจ [Models & Pricing](https://cursor.com/docs/models-and-pricing) และ model picker ของบัญชีคุณก่อนตัดสินใจเรื่องงบประมาณ
+ข้อมูลผลิตภัณฑ์และราคาอัปเดตล่าสุด: **8 สิงหาคม 2026** — ชื่อโมเดล ราคา availability และ UI เปลี่ยนได้เสมอ โปรดตรวจ [Models & Pricing](https://cursor.com/docs/models-and-pricing) และ model picker ของบัญชีคุณก่อนตัดสินใจเรื่องงบประมาณ
+
+อยากอ่านแบบ interactive ให้เปิด [Cursor Field Guide](./index.html) — หน้า static ที่สรุปโหมด, workflow, Git safety และ prompt kit จากคู่มือนี้
+
+รันแบบ local ได้ด้วย:
+
+```bash
+python3 -m http.server 8000
+```
+
+แล้วเปิด <http://localhost:8000>
 
 ---
 
@@ -20,6 +30,7 @@
 3. [สลับโหมดและโมเดลอย่างไร](#3-สลับโหมดและโมเดลอย่างไร)
 4. [คันโยกที่สำคัญกว่าการเปลี่ยนโมเดล](#4-คันโยกที่สำคัญกว่าการเปลี่ยนโมเดล)
 5. [สูตรทำงานที่ใช้ได้กับทุกโปรเจกต์](#5-สูตรทำงานที่ใช้ได้กับทุกโปรเจกต์)
+   - [Git เป็น safety layer ของ Cursor](#51-git-เป็น-safety-layer-ของ-cursor)
 6. [เลือกตามสายงาน](#6-เลือกตามสายงาน)
 7. [เคสจริง](#7-เคสจริง)
 8. [สัญญาณว่าเลือกโหมดหรือโมเดลผิด](#8-สัญญาณว่าเลือกโหมดหรือโมเดลผิด)
@@ -53,6 +64,8 @@ Cursor ไม่ใช่แค่แชทกับโมเดล แต่เ
 | **Cloud Agents** | งานยาว งานขนาน หรืออยากปิดเครื่อง | รันบน VM/branch แยก ติดตามต่อจากเว็บหรือมือถือได้ |
 
 เลือกพื้นผิวตามการประสานงาน ไม่ใช่ความยากอย่างเดียว: งานยากที่ต้องตอบคำถามทุก 2 นาทีอาจเหมาะกับ Editor มากกว่า Cloud ส่วนงานชัดที่ใช้เวลา 40 นาทีอาจเหมาะกับ Cloud แม้ logic ไม่ซับซ้อน
+
+จำให้ชัดว่า **Git กับ GitHub ไม่ใช่สิ่งเดียวกัน**: Git เก็บประวัติไว้ในเครื่องและทำงาน offline ได้ ส่วน GitHub/GitLab/Bitbucket คือ remote สำหรับ backup, review และทำงานร่วมกัน Cursor ทำงานกับทั้งสองฝั่ง แต่ Git ยังคงเป็น safety layer ที่คุณควบคุมเอง
 
 ### 1.2 สี่โหมดหลัก
 
@@ -144,6 +157,7 @@ Teams มี Standard $40/ผู้ใช้/เดือน และ Premium $
 | **Subagents** | ตัวย่อย context แยก รันขนานได้ | `.cursor/agents/` |
 | **Cloud Agents** | agent บน VM แยก ปิดแล็ปได้ | dropdown Cloud / cursor.com/agents |
 | **Bugbot** | รีวิว PR อัตโนมัติ | GitHub integration |
+| **Git** | ประวัติ, branch, diff, rollback และขอบเขตการส่งมอบ | `.git/`, `.gitignore`, `git status` |
 
 ---
 
@@ -386,6 +400,107 @@ flowchart TD
 5. Verify    รันสิ่งที่ล้มถ้างานผิด และเปิดดูของจริงเมื่อมี UI
 6. Review    ตรวจ diff รวม ความเสี่ยง และสิ่งที่ยังไม่ได้พิสูจน์
 ```
+
+### 5.1 Git เป็น safety layer ของ Cursor
+
+คู่มือ Git มี mental model ที่ควรใช้คู่กับ Agent ทุกครั้ง: **Working tree → Staging area → Local repository → Remote/PR** ทุกชั้นมีจุดให้หยุดตรวจ ก่อนการเปลี่ยนแปลงจะเดินทางไปไกลขึ้น
+
+```mermaid
+flowchart LR
+    W["Working tree<br/>Agent แก้ไฟล์"] -->|"git diff"| S["Staging area<br/>git add -p"]
+    S -->|"git diff --cached"| L["Local repository<br/>git commit"]
+    L -->|"git push"| R["Remote / Pull Request<br/>review → merge"]
+```
+
+กฎจำง่าย: **อย่า commit สิ่งที่คุณยังอธิบายไม่ได้** หนึ่ง commit ควรมีหนึ่งเหตุผล เช่น “เพิ่ม validation ฟอร์มสมัครสมาชิก” ดีกว่า “แก้หลายอย่าง” เพราะ review, debug และ rollback จะชัดเจนกว่า
+
+| พื้นที่ | คำสั่งหลัก | วิธีใช้คู่กับ Cursor |
+|---|---|---|
+| Working tree | `git status`, `git diff` | เช็ก scope ก่อนสั่ง Agent และหลังแต่ละ logical change |
+| Staging area | `git add -p`, `git diff --cached` | คัดเฉพาะไฟล์/บรรทัดที่เกี่ยวข้อง อย่า stage generated หรือ secret |
+| Local repository | `git commit -m "..."`, `git log --oneline` | commit หลัง test ผ่านและเมื่อคุณอนุมัติให้ commit |
+| Remote / PR | `git fetch`, `git push -u`, `@Branch` | อัปเดตข้อมูลก่อน review แล้วให้คน/เครื่องมือ review ก่อน merge |
+
+#### ถ้าเป็น repo ใหม่
+
+ตั้งค่า Git ครั้งเดียว แล้วให้ Agent ช่วยงานภายในขอบเขตที่ชัดเจน:
+
+```bash
+git --version
+git config --global user.name "Your Name"
+git config --global user.email "you@example.com"
+git init
+git branch -M main
+```
+
+ถ้าเป็นโปรเจกต์ที่มีอยู่บน remote แล้ว ให้ clone ก่อน; ถ้าเป็นโฟลเดอร์ใหม่ค่อยใช้ `git init` แล้วเชื่อม remote เอง:
+
+```bash
+# repo ที่มีอยู่แล้ว
+git clone https://github.com/OWNER/REPO.git
+cd REPO
+git remote -v
+
+# repo ใหม่ที่เพิ่ง git init (หลังตรวจและ commit แรกแล้ว)
+git remote add origin https://github.com/OWNER/REPO.git
+git push -u origin main
+```
+
+สร้าง `.gitignore` ก่อน stage ไฟล์ ตัวอย่างขั้นต่ำ:
+
+```gitignore
+node_modules/
+.env
+dist/
+.DS_Store
+```
+
+จากนั้นตรวจ `git status`/`git diff` แล้วค่อย `git add` และ commit แรก อย่าให้ Agent stage secret เพียงเพราะมันอยู่ในโฟลเดอร์เดียวกับ source
+
+**วงจร Git ที่ใช้กับงาน Cursor:**
+
+1. **ก่อนเริ่ม** — รัน `git status --short`; ถ้างานแยกจากงานปัจจุบัน ให้สร้าง branch เช่น `git switch -c feature/payment` หรือใช้ `agent --worktree payment` เพื่อให้ Agent ทำใน worktree แยก
+2. **ระหว่างทำ** — ให้ Agent แก้เฉพาะ scope; ใช้ `git diff` ดูว่ามีไฟล์ใดเกินขอบเขต และรัน test หลังแต่ละก้อนที่ตรวจได้
+3. **ก่อน commit** — รัน `git diff --check`, `git diff --stat`, test ที่เกี่ยวข้อง และถ้า stage แล้วให้ดู `git diff --cached` อีกครั้ง
+4. **ก่อนส่งขึ้น remote** — ใช้ `git fetch origin` เพื่อดูประวัติล่าสุด; push branch ด้วย `git push -u origin feature/payment`; เปิด PR พร้อมสรุปสิ่งที่เปลี่ยน วิธีทดสอบ และความเสี่ยง
+5. **ก่อน merge** — ใช้ `@Branch` ให้ Agent อ่าน diff ทั้ง branch และใช้ Agent Review/Bugbot ตามความเหมาะสม; อย่าให้ชื่อ commit หรือคำตอบของโมเดลแทนการดู diff จริง
+
+`git fetch` ดึงข้อมูล remote มาอัปเดต reference โดยไม่แก้ working tree; `git pull --ff-only` จะดึงและรวมเฉพาะกรณีที่เดินหน้าแบบ fast-forward ได้ ถ้า branch diverge ให้หยุดตรวจประวัติและตัดสินใจวิธี merge/rebase เอง
+
+ถ้าจะ merge ในเครื่องแทนการเปิด PR ให้ดึง `main` ล่าสุดก่อน แล้วค่อยรวม branch:
+
+```bash
+git switch main
+git pull --ff-only
+git merge feature/payment
+```
+
+ถ้าเกิด conflict ให้ใช้ขั้นตอนด้านล่างและรัน test ก่อน push ผลลัพธ์
+
+งานใหญ่ควรใช้ `git add -p` หรือระบุ path แทน `git add .` เพื่อไม่ให้ไฟล์ที่ไม่เกี่ยวข้องหลุดเข้า commit การมี checkpoint ของ Cursor ช่วย undo ระหว่าง session ได้ แต่ **ไม่ใช่ประวัติ Git และไม่แทน commit**
+
+#### เลือกคำสั่งกู้คืนตามอาการ
+
+ก่อนใช้คำสั่งย้อนกลับ ให้ตอบสองข้อ: **commit นี้ถูก push แล้วหรือยัง?** และ **ต้องการเก็บการแก้ไว้ไหม?**
+
+| อาการ | คำสั่ง | หมายเหตุ |
+|---|---|---|
+| แก้ไฟล์แล้วอยากทิ้งการแก้ | `git restore -- path/to/file` | ทำลายการแก้ที่ยังไม่ commit; ดู `git diff` ก่อน |
+| เผลอ stage ไฟล์ | `git restore --staged -- path/to/file` | เอาออกจาก staging แต่เก็บการแก้ในไฟล์ |
+| อยากแก้ commit ล่าสุดที่ยังไม่ push | `git commit --amend` | ใช้กับ commit ที่ยังเป็น local เท่านั้น |
+| commit ถูก push แล้วแต่ต้องการหักล้าง | `git revert <commit>` | สร้าง commit ใหม่ ปลอดภัยกว่าสำหรับ branch ที่แชร์ |
+| merge กำลังมี conflict และอยากยกเลิก | `git merge --abort` | กลับไปก่อนเริ่ม merge ถ้ายังไม่ commit |
+| ต้องแก้ commit local แต่เก็บไฟล์และ staging | `git reset --soft HEAD~1` | ใช้เฉพาะ local และตรวจสถานะหลังทำ |
+
+อย่าให้ Agent รัน `git reset --hard`, force-push หรือเขียนประวัติของ branch ที่แชร์โดยไม่มี approval ชัดเจน ถ้าไม่แน่ใจให้หยุดที่ `git status` และ `git log` ก่อน
+
+#### Merge conflict + Agent
+
+1. รัน `git status` เพื่อดูไฟล์ที่ conflict
+2. ให้ Agent **อธิบายความตั้งใจของทั้งสองฝั่งก่อนแก้** และระบุ invariant ที่ห้ามเสีย
+3. แก้เครื่องหมาย conflict ให้ครบ แล้วรัน test/typecheck ที่เกี่ยวข้อง
+4. ตรวจ `git diff`, `git diff --check` และ `git diff --cached`
+5. `git add` เฉพาะไฟล์ที่ตรวจแล้ว แล้ว commit; ถ้ายังไม่เข้าใจให้ใช้ `git merge --abort`
 
 ไม่ต้องสลับโมเดลทุกขั้น ถ้าโมเดลประจำวันถือบริบทครบและทำผ่านเกณฑ์ ให้มันทำต่อ การเปลี่ยนตัวมีค่าอ่านบริบทและอาจทำให้เสีย cache hit ใช้ subagent เมื่อได้ **context isolation, parallelism หรือ independent verification** จริง
 
@@ -766,11 +881,11 @@ default: Agent + Composer 2.5 / everyday frontier (หรือ Auto Balance ถ
 - วนแก้ไม่หลุดรอบที่ 3
 - สลับจากสำรวจยาวๆ ไปลงมือจริง (สรุปสั้นแล้วย้าย)
 
-**git commit**
+**Git boundary**
 
-- งานถึก → โมเดลถูกหรือให้ตัวที่เพิ่งเขียนโค้ด commit เองเลย (สลับโมเดลเพื่อประหยัดมักไม่คุ้มถ้าต้องอ่าน diff ใหม่)
-- Commit ที่ต้องอธิบาย "ทำไม" (เงิน/security) → โมเดลกลางขึ้นไป
-- **อย่าให้ commit ถ้าคุณไม่ได้ขอ** — ใส่ใน User Rules ได้
+- ดู `git status` และ `git diff` ก่อน/หลัง Agent ทุกก้อนที่สำคัญ
+- หนึ่ง commit = หนึ่งเหตุผล; commit message ต้องอธิบายได้ว่า “ทำอะไรและทำไม”
+- **อย่าให้ Agent commit ถ้าคุณไม่ได้ขอ** และอย่า force-push branch ที่แชร์โดยไม่มี approval
 
 **รีวิวก่อน merge**
 
@@ -841,6 +956,21 @@ AGENTS.md                 สรุประบบ + คำสั่ง verify (
 | `@` | แนบบริบท |
 | `Tab` | รับ autocomplete |
 
+**Git ที่ใช้คู่กับ Cursor**
+
+```bash
+git status --short
+git diff
+git diff --check
+git diff --cached
+git log --oneline --graph --decorate -12
+git switch -c feature/name
+git clone https://github.com/OWNER/REPO.git
+git fetch origin
+git remote -v
+git push -u origin feature/name
+```
+
 **CLI ที่ใช้บ่อย**
 
 ```bash
@@ -875,6 +1005,7 @@ agent --print --output-format json "review the current changes"
 - [CLI](https://cursor.com/docs/cli/using) · [CLI parameters](https://cursor.com/docs/cli/reference/parameters) · [Slash commands](https://cursor.com/docs/cli/reference/slash-commands)
 - [Agent security](https://cursor.com/docs/agent/security) · [.cursorignore](https://cursor.com/help/customization/ignore-files)
 - [Composer 2.5](https://cursor.com/docs/models/cursor-composer-2-5) · [Grok 4.5](https://cursor.com/docs/models/grok-4-5) · [Claude Sonnet 5](https://cursor.com/docs/models/claude-sonnet-5) · [Claude Fable 5](https://cursor.com/docs/models/claude-fable-5)
+- [Git Field Guide](https://github.com/zgame555/how-to-use-git) · [Git downloads](https://git-scm.com/downloads) · [Git documentation](https://git-scm.com/doc)
 - ดัชนีเอกสารทั้งหมด: [cursor.com/llms.txt](https://cursor.com/llms.txt)
 
 ### วิธีดูแลคู่มือนี้เมื่อ Cursor เปลี่ยน
